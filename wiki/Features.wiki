@@ -1,0 +1,21 @@
+#summary Features
+
+=== Compatibility ===
+
+* The current version is working with Honda chipped ECUs: *
+
+ * Ectune
+ * Crome 1.4+
+ * NG62
+
+
+* Under developpement: *
+
+ * AEM EMS
+ * MOTEC 
+
+=== Features ===
+
+* Real time dataloging
+* Shift Light
+* Buzzer (overheating alarm...)
