@@ -19,7 +19,7 @@
  * Shift Light
  * Buzzer (overheating alarm...)
  * Analog Sensors: oil temp & pressure
- * Serial Relay. (you can still use you laptop to datalog the ecu by connection to the module)
+ * Serial Relay. (you can still use you laptop to datalog the ecu by connecting to the module)
 
 === TODO ====
 
