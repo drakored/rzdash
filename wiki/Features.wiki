@@ -8,7 +8,6 @@
  * Crome 1.4+
  * NG62
 
-
 * Under developpement: *
 
  * AEM EMS
@@ -16,6 +15,14 @@
 
 === Features ===
 
-* Real time dataloging
-* Shift Light
-* Buzzer (overheating alarm...)
+ * Real time dataloging
+ * Shift Light
+ * Buzzer (overheating alarm...)
+ * Analog Sensors: oil temp & pressure
+
+
+=== TODO ====
+
+ * Lap Timer (like alfano does)
+ * Bigger screen for race application
+ * PCB to replace the shield
