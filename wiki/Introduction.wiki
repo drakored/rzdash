@@ -1,0 +1,15 @@
+#summary Intro
+
+= Introduction =
+
+RzDash is based on Arduino, it uses an Arduino Mega module to process and display data.
+
+* The hardware is based on a few simple things: *
+
+ * Arduino Mega
+ * KS0108 Graphic LCD
+ * Arduino Mega proto shield
+ * 5V switching power supply (based on a LM2575 ic)
+ * a floppy flat cable to connect the LCD (ATA 33)
+
+I'm using a special library to drive the LCD. It uses a frame buffer to accelerate display, it's twice as fast.
