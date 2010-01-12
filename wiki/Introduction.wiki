@@ -13,3 +13,12 @@ RzDash is based on Arduino, it uses an Arduino Mega module to process and displa
  * a floppy flat cable to connect the LCD (ATA 33)
 
 I'm using a special library to drive the LCD. It uses a frame buffer to accelerate display, it's twice as fast.
+
+== Why ? ==
+
+I searched on the web for such systems, I did not find anything that had the features I wanted.
+It's pretty easy to datalog a Honda ECU, all you need is a custom rom with datalog enable, a serial ttl to USB cable, a laptop and that's it.
+
+The problem is, I wanted to keep an eye on my engine's constants while driving, without the hassle of having a laptop in my car.
+
+The other reason is that I didn't want to turn my car into a "night club" with 10 gauges flashing on the dash. One screen to display all the info, and only the info I want is way better.
