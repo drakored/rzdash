@@ -483,17 +483,20 @@ float kpm = 0;
             		if ( Serial1.available() > 0 && CurReq == VSS_IDX )
 			{
                 	TempInt = Serial1.read();
+                        TempF = TempInt;
                         
 			//Display the result in Km/H
 			sprintf(VSSK,"%d",TempInt);
                         vssk = TempInt;
+                        kpm = TempF / 60;
+                        kpm = constrain(kpm, 0.0001, 100.0);
 
 			//Display the result in MpH
 			TempInt = TempF * 0.62137;
 			sprintf(VSSM,"%d",TempInt);
                         vssm = TempInt;
                         
-                        kpm = vssk / 60;
+                        
                         hundredkm = ((60 / kpm) * 100) / 60;     //minutes needed to travel 100km
 
 			bWaitingForAnswer = false;
@@ -569,7 +572,7 @@ static long LastPoll = 0;
 //                inj = (TempF * 0.0017345794392523365 + 0.08354205607476633); //formula found on pgmfi.org
 //                inj = TempF / 176; //formula by dip
                 
-                inj = TempF / 512;
+                inj = TempF / 256;
 
                 //Display the result in the field
                 floatToString(INJ, inj, 4, 0);
@@ -577,7 +580,7 @@ static long LastPoll = 0;
                 //Duty cycle
                 duty = (rpm * inj) / 1200;          
                 fuelc = (hundredkm * ((injsize / 100) * duty)) / 1000;     //fuel consumption in Liters per 100km
-                fuelc = constrain(fuelc, 0, 50);
+                fuelc = constrain(fuelc, 0.0001, 50.0);
                 floatToString(FUELC, fuelc, 2, 0);
 
                 bWaitingForAnswer = false;

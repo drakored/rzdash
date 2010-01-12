@@ -134,19 +134,15 @@ void fFuelc(int x, int y) {
   getVss();
   getRpm();
   getInj();
-  if (vssk >= 20) {
     GLCD.CursorTo(x+6, y); 
     GLCD.Puts("               ");
     GLCD.CursorTo(x, y); 
     GLCD.Puts("Fuel: ");
+  if (vssk >= 20) {
     GLCD.Puts(FUELC);
     GLCD.Puts("L/100");
   }
   else {
-    GLCD.CursorTo(x+6, y); 
-    GLCD.Puts("               ");
-    GLCD.CursorTo(x, y); 
-    GLCD.Puts("Fuel: ");
     GLCD.Puts("Too slow");
   }
 }
