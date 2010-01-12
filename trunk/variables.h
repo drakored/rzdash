@@ -79,12 +79,12 @@ int hicam = 0;
 int col = 0;
 int vssk = 0;
 int vssm = 0;
-int batt = 0;
 int tcs = 0;
 int gear = 0;
 int boosttgt = 0;
 float ign = 0;
 float inj = 0;
+float batt = 0;
 
 
 char msg[]="";

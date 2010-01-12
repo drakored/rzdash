@@ -464,6 +464,7 @@ static long LastPoll = 0;
 void getVss() {
 // process VSS //
 static long LastPoll = 0;
+float kpm = 0;
 
 	if ( !bWaitingForAnswer )
 	{
@@ -491,8 +492,9 @@ static long LastPoll = 0;
 			TempInt = TempF * 0.62137;
 			sprintf(VSSM,"%d",TempInt);
                         vssm = TempInt;
-
-                        hundredkm = ((60 / (vssk / 60)) * 100) / 60;     //minutes needed to travel 100km
+                        
+                        kpm = vssk / 60;
+                        hundredkm = ((60 / kpm) * 100) / 60;     //minutes needed to travel 100km
 
 			bWaitingForAnswer = false;
                         Serial1.flush();
