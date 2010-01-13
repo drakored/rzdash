@@ -16,6 +16,7 @@
 === Features ===
 
  * Real time dataloging
+ * Instant fuel consumption (L/100km, MPG will be implemented soon)
  * Shift Light
  * Buzzer (overheating alarm...)
  * Analog Sensors: oil temp & pressure
