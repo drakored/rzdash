@@ -1,4 +1,4 @@
-char VERSION[5] = "A94";
+char VERSION[5] = "R17";
 
 #include <inttypes.h>
 #include <avr/pgmspace.h>
