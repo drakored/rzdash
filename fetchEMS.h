@@ -25,46 +25,46 @@ void getStream() {
 void processStream() {
   
   
-  StreamCache[0] = rpm;
+  rpm =  StreamCache[0];
   rpm = map(rpm, 0, 255, 0, 26000);
   //
-  StreamCache[1] = mapk;
+  mapk = StreamCache[1];
   mapk = map(mapk, 0, 255, 0, 176.67)+5.48;
   //
-  StreamCache[2]  = tps;
+  tps = StreamCache[2];
   tps = map(tps, 0, 255, 0, 100);
   //
-  StreamCache[3]  = iatf;
+  iatf = StreamCache[3];
   iatf = map(iatf, 0, 255, -198, 260)+32;
   iatc = (iatf - 32) * (5/9) ;
   //
-  StreamCache[4]  = ectf;
+  ectf = StreamCache[4];
   ectf = map(ectf, 0, 255, -198, 260)+32;
   ectc = (ectf - 32) * (5/9);
   //
-  StreamCache[5]  = ign;
+  ign = StreamCache[5];
   ign = map(ign, 0, 255, 0, 72.64)-17;
   //
-  StreamCache[6]  = batt;
+  batt = StreamCache[6];
   batt = map(batt, 0, 255, 0, 16);
   //
-  StreamCache[7]  = vssm;
+  vssm = StreamCache[7];
   vssk = vssm * 1.6;
   //
-  StreamCache[8]  = duty;
+  duty = StreamCache[8];
   duty = map(duty, 0, 255, 0, 250);
   //
-  StreamCache[9]  = barok;
+  barok = StreamCache[9];
   barok = map(barok, 0, 255, 0, 127);
   //
-  StreamCache[10]  = tcs;
+  tcs = StreamCache[10];
   //
-  StreamCache[11]  = gear;
+  gear = StreamCache[11];
   //
-  StreamCache[12]  = boosttgt;
+  boosttgt = StreamCache[12];
   boosttgt = map(boosttgt, 0, 255, 0, 176.67)+5.48;
   //
-  StreamCache[13]  = o2;
+  o2 = StreamCache[13];
   o2 = map(o2, 0, 255, 0, 9.6797)+3.235;
   
 }
