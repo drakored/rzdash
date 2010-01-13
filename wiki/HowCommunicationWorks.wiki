@@ -2,7 +2,9 @@
 
 === Connecting to the Honda ECU ===
 
-The module is connected to the Honda ecu via its TTL serial port. (CN2 connector label on the PCB)
+http://home.comcast.net/~keebler65/honda/images/socketsinstalled2.jpg
+
+The module is connected to the Honda ecu via its TTL serial port. (CN2 connector label on the PCB, bottom left on the picture above)
 
 Every time it needs a value, a function sends a specific command (or several in a row) to the ECU, one or several bytes are then received and stored in the serial buffer until the function gets it.
 
@@ -11,6 +13,8 @@ Then the value is processed to become human readable.
 What the ECU does is read in its memory (ram) to get the value, and send it to the module.
 
 === Connecting to the AEM EMS ===
+
+https://www.jayracing.com/images/AEM-30-1XXXi.jpg
 
 The AEM works on a "data stream" model. It is connected via a RS232 plug rather than an internal TTL serial.
 
