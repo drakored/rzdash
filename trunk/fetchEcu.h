@@ -572,7 +572,7 @@ static long LastPoll = 0;
 //                inj = (TempF * 0.0017345794392523365 + 0.08354205607476633); //formula found on pgmfi.org
 //                inj = TempF / 176; //formula by dip
                 
-                inj = TempF / 256;
+                inj = TempF / 352;
 
                 //Display the result in the field
                 floatToString(INJ, inj, 4, 0);
