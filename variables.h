@@ -58,7 +58,7 @@ const unsigned int tempFuelLevel[] =  { 2527, 3497, 4053 };
 float duty = 0;     //injectors duty cycle
 float kph = 0;     //speed in kph
 float hundredkm = 0; //= ((60 / (kph / 60)) * 100) / 60;     //minutes needed to travel 100km
-int injsize = 230 * 4;     //injectors size x 4 (one per cylinder)
+float injsize = 230 * 4;     //injectors size x 4 (one per cylinder)
 float fuelc = 0; //fuel consumption
 
 int ectc = 0;
