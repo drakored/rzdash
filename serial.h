@@ -21,11 +21,11 @@ boolean serialCheckEcu() {
             fBuffer = Serial1.read();    
 
             if (fBuffer == 0x02)
-            return true;
+              return true;
 
 //            if (fBuffer == 0x00)
             else
-            return false;
+              return false;
 
             Serial1.flush();
             delay(200);
