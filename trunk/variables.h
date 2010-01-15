@@ -36,6 +36,7 @@
  boolean BarCreated = false;
  int CurMenu = 4; //startup menu
  short SerialRelayStep = 0;
+ short MinimumSpeed = 25;
  //
 
 
@@ -59,12 +60,13 @@ float duty = 0;     //injectors duty cycle
 float kph = 0;     //speed in kph
 float hundredkm = 0; //= ((60 / (kph / 60)) * 100) / 60;     //minutes needed to travel 100km
 float injsize = 230 * 4;     //injectors size x 4 (one per cylinder)
-float fuelc = 0; //fuel consumption
+float fuelc = 0; //fuel consumption (L/100km)
+float fuelsc = 0; //Stoped fuel consumption (L/hour)
 
-int ectc = 0;
-int ectf = 0;
-int iatc = 0;
-int iatf = 0;
+float ectc = 0;
+float ectf = 0;
+float iatc = 0;
+float iatf = 0;
 int o2 = 0;
 int barop = 0;
 int barok = 0;
@@ -81,13 +83,10 @@ int vssk = 0;
 int vssm = 0;
 int tcs = 0;
 int gear = 0;
-int boosttgt = 0;
+float boosttgt = 0;
 float ign = 0;
 float inj = 0;
 float batt = 0;
-
-
-char msg[]="";
 
 char ECTC[]="000";
 char ECTF[]="000";
@@ -109,7 +108,8 @@ char VSSM[]="000";
 char IGN[]="00000";
 char INJ[]="0000000";
 char FUELC[]="000.00";
-char DUTY[]="00.00";
+char FUELSC[]="000.00";
+char DUTY[]="000.00";
 
 char OilTemperature[]="000.00";
 char OilPressure[]="00.00";

@@ -1,4 +1,4 @@
-char VERSION[5] = "R17";
+char VERSION[5] = "R21";
 
 #include <inttypes.h>
 #include <avr/pgmspace.h>
@@ -74,10 +74,11 @@ void setup() {
   GlcdClear();
   
   
-//  if (!serialCheckEcu()) 
-//       BadEcu();
-//  else 
-//    GoodEcu();
+  if (!serialCheckEcu()) 
+    BadEcu();
+    
+  else 
+    GoodEcu();
   
 }
 

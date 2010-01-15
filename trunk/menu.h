@@ -165,15 +165,15 @@ BigGraphFill(0, 8500, rpm, 0);
 GLCD.CursorTo(1, 1); 
 GLCD.Puts(RPM);
 
-if (vssk >= 20) {
-BigGraphFill(0, 23, fuelc, 32);
+if (vssk >= MinimumSpeed) {
+BigGraphFill(0, 20, fuelc, 32);
 GLCD.CursorTo(1, 5); 
 GLCD.Puts(FUELC);
 }
 else {
-BigGraphFill(0, 23, 0, 32);
+BigGraphFill(0, 20, fuelsc, 32);
 GLCD.CursorTo(1, 5); 
-GLCD.Puts("Too Slow");
+GLCD.Puts(FUELSC);
 }
 }
 }

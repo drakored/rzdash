@@ -1,7 +1,7 @@
 
 void BadEcu() {
  long time = millis();
-   while (time - millis() < 4000) {
+   while (time - millis() < 3000) {
     GLCD.CursorTo(5, 3); 
     GLCD.Puts("Check Ecu");
     GLCD.CursorTo(5, 4); 
@@ -12,11 +12,11 @@ void BadEcu() {
 
 void GoodEcu() {
  long time = millis();
-   while (time - millis() < 4000) {
+   while (time - millis() < 3000) {
     GLCD.CursorTo(6, 3); 
     GLCD.Puts("ECU test");
     GLCD.CursorTo(5, 4); 
-    GLCD.Puts("successful");
+    GLCD.Puts("Successful");
     GLCD.Update();
  }
 }
@@ -138,12 +138,13 @@ void fFuelc(int x, int y) {
     GLCD.Puts("               ");
     GLCD.CursorTo(x, y); 
     GLCD.Puts("Fuel: ");
-  if (vssk >= 20) {
+  if (vssk >= MinimumSpeed) {
     GLCD.Puts(FUELC);
     GLCD.Puts("L/100");
   }
   else {
-    GLCD.Puts("Too slow");
+    GLCD.Puts(FUELSC);
+    GLCD.Puts("L/H");
   }
 }
 
@@ -194,7 +195,7 @@ void fDuty(int x, int y) {
     GLCD.Puts("                 ");
     GLCD.CursorTo(x, y); 
     GLCD.Puts("Duty: ");
-    GLCD.Puts(floatToString(DUTY, duty, 2, 0));
+    GLCD.Puts(DUTY);
     GLCD.Puts("%");    
 }
 

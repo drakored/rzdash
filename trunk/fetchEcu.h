@@ -54,14 +54,12 @@ static long LastPoll = 0;
 		TempF = ( (0.1423 * X * X * X * X * X * X ) - (2.4938 * X * X * X * X * X) +
 		          (17.837 * X * X * X * X) - (68.698 * X * X * X) +
 		          (154.69 * X * X) - (232.75 * X) + 291.24);
-		TempInt = TempF;
-                ectf = TempInt;
-		sprintf(ECTF,"%d",TempInt);
+                ectf = TempF;
+                floatToString(ECTF, ectf, 1, 0);
 
-		//Display the result in Celsius
-		TempInt = (TempF - 32) * 5 / 9;
-                ectc = TempInt;
-		sprintf(ECTC,"%d",TempInt);
+                //Display the result in Celsius
+                ectc = (TempF - 32) * 5 / 9;
+                floatToString(ECTC, ectc, 1, 0);
 
 		bWaitingForAnswer = false;
                 Serial1.flush();
@@ -95,14 +93,12 @@ static long LastPoll = 0;
                 TempF = ( (0.1423 * X * X * X * X * X * X ) - (2.4938 * X * X * X * X * X) +
                           (17.837 * X * X * X * X) - (68.698 * X * X * X) +
                           (154.69 * X * X) - (232.75 * X) + 291.24);
-                TempInt = TempF;
-                sprintf(IATF,"%5d",TempInt);
-                iatf = TempInt;
+                iatf = TempF;
+                floatToString(IATF, iatf, 1, 0);
 
                 //Display the result in Celsius
-                TempInt = (TempF - 32) * 5 / 9;
-                sprintf(IATC,"%d",TempInt);
-                iatc = TempInt;
+                iatc = (TempF - 32) * 5 / 9;
+                floatToString(IATC, iatc, 1, 0);
                 bWaitingForAnswer = false;
                 Serial1.flush();
                 LastPoll = millis();   
@@ -545,6 +541,8 @@ static long LastPoll = 0;
 void getInj() {
   
 static long LastPoll = 0;
+static long LastPoll2 = 0;
+static long LastPoll3 = 0;
 
 	if ( !bWaitingForAnswer )
 	{
@@ -572,17 +570,63 @@ static long LastPoll = 0;
 //                inj = (TempF * 0.0017345794392523365 + 0.08354205607476633); //formula found on pgmfi.org
 //                inj = TempF / 176; //formula by dip
                 
+                //injection time in ms
                 inj = TempF / 352;
-
-                //Display the result in the field
                 floatToString(INJ, inj, 4, 0);
                 
                 //Duty cycle
-                duty = (rpm * inj) / 1200;          
-                fuelc = (hundredkm * ((injsize / 100) * duty)) / 1000;     //fuel consumption in Liters per 100km
+                duty = (rpm * inj) / 1200;   
+                if (millis() - LastPoll2 > 500) {
+                      LastPoll2 = millis();   
+                      floatToString(DUTY, duty, 2, 0);
+                }
+                
+                //fuel consumption in Liters per 100km
+                fuelc = (hundredkm * ((injsize / 100) * duty)) / 1000;     
                 fuelc = constrain(fuelc, 0.0001, 50.0);
-                floatToString(FUELC, fuelc, 2, 0);
+                
+                //fuel consumption in Liters per hour
+                fuelsc = (60 * ((injsize / 100) * duty)) / 1000;
+                fuelsc = constrain(fuelsc, 0.0001, 50.0);
 
+                
+                static short i = 0;
+                static short ii = 0;
+                static float fuelclist[3] = {0,0,0};
+                float fuelcsmoothed = 0; 
+                float fuelctotal = 0; 
+                static float fuelsclist[3] = {0,0,0};
+                float fuelscsmoothed = 0; 
+                float fuelsctotal = 0; 
+                      
+                     fuelclist[i] = fuelc; //filling the list
+                     i++;
+                     if (i > 2)
+                       i = 0;
+                       
+                     for (short n=0;n<=2;n++) { //making sum
+                     fuelctotal +=  fuelclist[n];
+                     }
+                     
+                     fuelcsmoothed = (fuelctotal / 3);
+                     
+                     fuelsclist[ii] = fuelsc; //filling the list
+                     ii++;
+                     if (ii > 2)
+                       ii = 0;
+                       
+                     for (short n=0;n<=2;n++) { //making sum
+                     fuelsctotal +=  fuelsclist[n];
+                     }
+                     
+                     fuelscsmoothed = (fuelsctotal / 3);
+                        
+                    if (millis() - LastPoll3 > 500) {
+                         LastPoll3 = millis();   
+                        floatToString(FUELC, fuelcsmoothed, 2, 0);
+                        floatToString(FUELSC, fuelscsmoothed, 2, 0);
+                    }
+                          
                 bWaitingForAnswer = false;
                 Serial1.flush();
                 LastPoll = millis();   
