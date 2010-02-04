@@ -152,8 +152,8 @@ void selectBackLight () {
    if  (ButtonBbyte > 1){
           ButtonBbyte = 0;
    }
-   if (BackLight >= 200) {
-          BackLight = 2;
+   if (BackLight >= 100) {
+          BackLight = 1;
    }
    sprintf(cBackLight,"%d",BackLight);   
    

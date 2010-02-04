@@ -42,5 +42,6 @@ void Shifter(int interval) {
    
    
 void lcdBackLight(int light) {
+  light = map(light, 0, 255, 0, 100);
   analogWrite(BackLightPin, light);
 }
