@@ -5,20 +5,18 @@ unsigned short StreamChecksum = 0;
 
 void getStream() {
 
-                        while (Serial1.read() != StreamHeader ) {
-                          
-                        }
-
-            		if ( Serial1.available() >= StreamSize)
-			{
-  
-                         for ( short i = 0; i < StreamSize-3; i++) {
-                	StreamCache[i]  = Serial1.read();
-                         }
-                         
-                        StreamChecksum = Serial1.read();
-                        
-			}
+    while (Serial1.read() != StreamHeader ) {
+            
+    }    
+        if ( Serial1.available() >= StreamSize)
+        {  
+            for ( short i = 0; i < StreamSize-3; i++) {
+            StreamCache[i]  = Serial1.read();
+            }
+              
+        StreamChecksum = Serial1.read();
+              
+        }
 
 }
 

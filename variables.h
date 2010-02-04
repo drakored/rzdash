@@ -20,7 +20,7 @@
  // Settings
  short ButtonAbyte = 0;
  short ButtonBbyte = 0;
- short BackLight = 35;
+ short BackLight = 50;
  int ShifterRpm = 7500;
  long previousMillis[4] = {0,0,0,0};
  long beepTime = 0;

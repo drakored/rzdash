@@ -164,22 +164,16 @@ getInj();
 BigGraphFill(0, 8500, rpm, 0);
 GLCD.CursorTo(1, 1); 
 GLCD.Puts(RPM);
-GLCD.CursorTo(21-4, 3);
-GLCD.Puts("RPM");
 
 if (vssk >= MinimumSpeed) {
 BigGraphFill(0, 20, fuelc, 32);
-GLCD.CursorTo(1, 5);
+GLCD.CursorTo(1, 5); 
 GLCD.Puts(FUELC);
-GLCD.CursorTo(21-6, 7);
-GLCD.Puts("L/100");
 }
 else {
 BigGraphFill(0, 20, fuelsc, 32);
-GLCD.CursorTo(1, 5);
+GLCD.CursorTo(1, 5); 
 GLCD.Puts(FUELSC);
-GLCD.CursorTo(21-4, 7);
-GLCD.Puts("L/H");
 }
 }
 }

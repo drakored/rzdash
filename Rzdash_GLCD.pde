@@ -62,7 +62,7 @@ void setup() {
 //  GLCD.SelectFont(pa14); // switch to fixed width system font
 //  GLCD.SelectFont(im30); // switch to fixed width system font
   GLCD.SelectFont(System5x7); // switch to fixed width system font
-  lcdBackLight(150);
+  lcdBackLight(75);
 
   GlcdSplash();
   beepOff();
@@ -80,6 +80,7 @@ void setup() {
   else 
     GoodEcu();
   
+  lcdBackLight(BackLight);
 }
 
 /*==============================================================================
@@ -88,23 +89,34 @@ void setup() {
 
 void loop() {
 
-
-if (digitalRead(ButtonB) == LOW) {
+if (digitalRead(ButtonA) == LOW && ButtonAbyte == 0) {
   if (millis() - previousMillis[2]> 500) {
     previousMillis[2] = millis();  
+    GlcdClear();
+    ButtonBbyte = 0;
+    ButtonAbyte = 1;
+    Settings();
+    BarCreated = false;
+  }
+}
+
+if (digitalRead(ButtonB) == LOW && ButtonBbyte == 0) {
+  if (millis() - previousMillis[2]> 500) {
+    previousMillis[2] = millis();  
+    ButtonBbyte = 1;
+    ButtonAbyte = 0;
     NextMenu(); 
     BarCreated = false;
     beepLoopOn(100);
   }
 }
 
-if (digitalRead(ButtonA) == LOW) {
-  if (millis() - previousMillis[2]> 500) {
-    previousMillis[2] = millis();  
-    GlcdClear();
-    Settings();
-    BarCreated = false;
-  }
+  if (digitalRead(ButtonA) == HIGH) {
+    ButtonAbyte = 0;
+}
+
+  if (digitalRead(ButtonB) == HIGH) {
+    ButtonBbyte = 0;
 }
 
 ShowMenu(0);
@@ -113,7 +125,6 @@ Shifter(30);
 
 serialTimeout(250);
 serialFastRelay();
-lcdBackLight(BackLight);
 
 //if (millis() - previousMillis[4] > 10 ) {
 //previousMillis[4] = millis();
