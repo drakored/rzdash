@@ -74,13 +74,14 @@ void setup() {
   GLCD.Update();
   GlcdClear();
   
-  
-  if (!serialCheckEcu()) 
+/*  
+  if (!serialCheckEcu()) {
     BadEcu();
-    
-  else 
+  }
+  else { 
     GoodEcu();
-  
+  }
+  */
   lcdBackLight(BackLight);
 }
 
