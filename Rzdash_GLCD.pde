@@ -1,4 +1,4 @@
-char VERSION[5] = "R21";
+char VERSION[5] = "R24";
 
 #include <inttypes.h>
 #include <avr/pgmspace.h>
@@ -12,6 +12,7 @@ char VERSION[5] = "R21";
 #include <ks0108.h>
 #include "SystemFont5x7.h"   // system font
 #include "splash.h"
+#include "racedash.h"
 
 #include "display.h"
 #include "leds.h"
