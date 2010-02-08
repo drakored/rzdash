@@ -32,9 +32,29 @@ void BlinkBar(int interval) {
    }
  }
 
-void Wave(int x, int y) {
+void Wave(int x, int y) { //TODO
   
   }
+  
+  
+void RaceDash (float minimum, float maximum, float value) { //TODO
+  
+  GLCD.DrawBitmap(racedash, 0, 0, BLACK);
+  
+  if (value < maximum/2) {
+  unsigned int mask1 = map(value, minimum, (maximum/2), 0, 30);
+  mask1 = constrain(mask1, 0, 30);
+  GLCD.FillRect(1, mask1, 36, 30-mask1, WHITE);
+  GLCD.FillRect(1, 1, 125, 28, WHITE);
+  }
+  
+  if (value > maximum/2) {
+  unsigned int mask2 = map(value, (maximum/2), maximum, 0, 125);
+  mask2 = constrain(mask2, 0, 125);
+  GLCD.FillRect(mask2, 1, 125-mask2, 28, WHITE);
+  }
+  
+}
 
 void HBarGraphFrame(int x, int y) {
   

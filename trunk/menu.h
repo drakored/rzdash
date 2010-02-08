@@ -8,14 +8,21 @@ void Menu1(int interval) {
 if (BarCreated == false) {
 //HBarGraphFrame(0, 9);
 //HBarGraphFrame(0, 25);
-HBarGraphFrame(0, 41);
-HBarGraphFrame(0, 57);
+//HBarGraphFrame(0, 41);
+//HBarGraphFrame(0, 57);
 BarCreated = true; 
 }
 
 
 if (millis() - previousMillis[3] > interval) {
 previousMillis[3] = millis();
+
+getRpm();
+getEct();
+getVtec();
+getInj();
+RaceDash(0, 9000, rpm);
+
 //fRpm(0, 0);
 //rpm = 5600;
 //HBarGraphFill(0, 9500, rpm, 0, 9);
@@ -23,6 +30,7 @@ previousMillis[3] = millis();
 //duty = 34;
 //HBarGraphFill(0, 100, duty, 0, 25);
 
+/*
 GLCD.CursorTo(0, 0); 
 GLCD.Puts("       ");
 GLCD.CursorTo(0, 0); 
@@ -35,6 +43,7 @@ fOilTemperature(0, 4);
 HBarGraphFill(0, 180, int(GetShhTemp(analogRead(1))+30), 0, 41);
 fOilPressure(0, 6);
 HBarGraphFill(0, 100, GetVDOPressure(analogRead(0)*4)*10, 0, 57);
+*/
    }
 }
 
