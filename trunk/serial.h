@@ -14,19 +14,19 @@ const uint8_t setspeed[] = {0x82, 0x0F};
  
 // checks if ECU has custom eeprom
 boolean serialCheckEcu() {
-  
+int buffer;  
             Serial1.write(0x4B);
             delay(500);
                
-            fBuffer = Serial1.read();    
+            buffer = Serial1.read();    
 
-            if (fBuffer == 0x02)
+            if (buffer == 0x02) {
               return true;
-
+            }
 //            if (fBuffer == 0x00)
-            else
+            else {
               return false;
-
+            }
             Serial1.flush();
             delay(200);
 }

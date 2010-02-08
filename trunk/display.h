@@ -1,24 +1,41 @@
+void GlcdClear() {
+  short tx=0;
+  short ty=0;
+  for (ty=0; ty <= 63; ty++) {
+    GLCD.SetDot(tx, ty, WHITE);
+    
+  for (tx=0; tx <= 127; tx++) {
+    GLCD.SetDot(tx, ty, WHITE);
+}
+  }
+}
 
 void BadEcu() {
- long time = millis();
-   while (time - millis() < 3000) {
+ GlcdClear();
+ GLCD.Update();
     GLCD.CursorTo(5, 3); 
     GLCD.Puts("Check Ecu");
     GLCD.CursorTo(5, 4); 
     GLCD.Puts("Connection");
+   while (millis() <= 5000) {
     GLCD.Update();
  }
+ GlcdClear();
+ GLCD.Update();
 }
 
 void GoodEcu() {
- long time = millis();
-   while (time - millis() < 3000) {
+ GlcdClear();
+ GLCD.Update();
     GLCD.CursorTo(6, 3); 
     GLCD.Puts("ECU test");
     GLCD.CursorTo(5, 4); 
     GLCD.Puts("Successful");
+   while (millis() <= 5000) {
     GLCD.Update();
  }
+GlcdClear();
+GLCD.Update();
 }
 
 void BlinkBar(int interval) {
@@ -296,17 +313,5 @@ void GlcdSplash() {
   GLCD.Puts("V:");
   GLCD.CursorTo(17, 0); 
   GLCD.Puts(VERSION);
-}
-
-void GlcdClear() {
-  short tx=0;
-  short ty=0;
-  for (ty=0; ty <= 63; ty++) {
-    GLCD.SetDot(tx, ty, WHITE);
-    
-  for (tx=0; tx <= 127; tx++) {
-    GLCD.SetDot(tx, ty, WHITE);
-}
-  }
 }
 
