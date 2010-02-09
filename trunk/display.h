@@ -56,42 +56,43 @@ void Wave(int x, int y) { //TODO
 void RaceDash (float minimum, float maximum, float value) { //TODO
   
  short angle[2][66] = {    1,   1,   1,  1,  1,  1,   1,   1,  1,  1,   1,  2,  2,  2,   2,  3,   3,  3,  4,  4,   4,  5,  5,  6,  6,   7,  7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 16, 16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
-                                          29,28,27,26,25,24,23,22,21,20,19,19,18,17,16,16,15,14,14,13,12,12,11,11,10,10, 9, 9, 8, 8, 7 , 7,   6,    6,  5,    5,    4,   4,   3,    4,   3,   3,   3,    2,   2,    2,   2,   1,    1,   1 ,   1,   1,   1,   1,   1,    1,   1,    1,   1,    1,    1,  1,   1,    1,    1,   1};
+                           29,28,27,26,25,24,23,22,21,20,19,19,18,17,16,16,15,14,14,13,12,12,11,11,10,10, 9, 9, 8, 8, 7 , 7,   6,    6,  5,    5,    4,   4,   3,    4,   3,   3,   3,    2,   2,    2,   2,   1,    1,   1 ,   1,   1,   1,   1,   1,    1,   1,    1,   1,    1,    1,  1,   1,    1,    1,   1};
  
   GLCD.DrawBitmap(racedash, 0, 0, BLACK);
  
-  if (value < maximum/4) {
-        unsigned int mask1 = map(value, minimum, (maximum/4), 0, 30);
+  if (value < maximum/3) {
+        unsigned int mask1 = map(value/2, minimum, (maximum/3), 0, 30);
         mask1 = constrain(mask1, 0, 30);
         GLCD.FillRect(1, 30-mask1, 36, 30-mask1, WHITE);
         
-        GLCD.FillRect(0, 0, 36, 28, WHITE);
-        GLCD.FillRect(37, 1, 87, 28, WHITE);
+//        GLCD.FillRect(1, 1, 36, 28, WHITE);
+        GLCD.FillRect(1, 1, 125, 28, WHITE);
   }
   
-   if ( value > maximum/4 && value < (maximum/4)*3 ) {
+   if ( value > maximum/3 && value < (maximum/3)*2 ) {
      
- /*
-        unsigned int mask2x = map(value, (maximum/4), (maximum/4)*3, 0, 35);
+ 
+        unsigned int mask2x = map(value, (maximum/3), (maximum/3)*2, 0, 35);
         mask2x = constrain(mask2x, 0, 35);
-         unsigned int mask2y = map(value, (maximum/4), (maximum/4)*3, 0, 28);
+         unsigned int mask2y = map(value, (maximum/3), (maximum/3)*2, 0, 28);
         mask2y = constrain(mask2y, 0, 28);
         GLCD.FillRect(1+mask2x, 1, 35-mask2x, 28-mask2y, WHITE);
- //        GLCD.FillRect(1, 1, 35, 28, WHITE); */
- 
-        unsigned int mask2 = map(value, (maximum/4), (maximum/4)*3, 0, 66);
+
+/*      // WORKS BUT CRASHES
+        unsigned int mask2 = map(value, (maximum/3), (maximum/3)*2, 0, 66);
         mask2 = constrain(mask2, 0, 66);
         
         for (short i = 65; i >= mask2; i--) {
               GLCD.DrawLine(angle[0][i], angle[1][i], 37, 29, WHITE);
         }
-        GLCD.FillRect(37, 1, 87, 28, WHITE);
+        */
+        GLCD.FillRect(37, 1, 88, 28, WHITE); 
   }
   
-  if (value > (maximum/4)*3) {
-        unsigned int mask3 = map(value, (maximum/4)*3, maximum, 37, 87);
-        mask3 = constrain(mask3, 37, 87);
-        GLCD.FillRect(mask3, 1, 87-mask3, 28, WHITE);
+  if (value > (maximum/3)*2) {
+        unsigned int mask3 = map(value, (maximum/3)*2, maximum, 37, 125);
+        mask3 = constrain(mask3, 37, 125);
+        GLCD.FillRect(mask3, 1, 125-mask3, 28, WHITE);
   }
   
   
