@@ -20,7 +20,7 @@
  // Settings
  short ButtonAbyte = 0;
  short ButtonBbyte = 0;
- short BackLight = 50;
+ short BackLight = 70;
  int ShifterRpm = 7500;
  long previousMillis[4] = {0,0,0,0};
  long beepTime = 0;
@@ -34,9 +34,9 @@
  boolean splash = true;
  boolean Bar = false;
  boolean BarCreated = false;
- int CurMenu = 4; //startup menu
+ short CurMenu = 1; //startup menu
  short SerialRelayStep = 0;
- short MinimumSpeed = 25;
+ short MinimumSpeed = 40;
  //
 
 
@@ -75,7 +75,7 @@ int maphg = 0;
 int mapmb = 0;
 int tps = 0;
 int rpm = 0;
-int vtec = 0;
+boolean vtec = false;
 int locam = 0;
 int hicam = 0;
 int col = 0;
@@ -99,7 +99,6 @@ char MAPHG[]="000";
 char MAPMB[]="0000";
 char TPS[]="000";
 char RPM[]="00000";
-char VTEC[]="00000";
 char LOCAM[]="00000";
 char HICAM[]="00000";
 char COL[]="00000";

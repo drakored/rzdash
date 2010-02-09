@@ -349,8 +349,13 @@ static long LastPoll = 0;
                  {
                 	fBuffer = Serial1.read();
                         TempInt = fBuffer;
-                        sprintf(VTEC,"%d",TempInt);
-                        vtec = TempInt;
+
+                        if ( TempInt == 67) {
+                          vtec = true;
+                        }
+                        else {
+                          vtec = false;
+                        }
 			bWaitingForAnswer = false;
                         Serial1.flush();
                         LastPoll = millis();   

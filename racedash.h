@@ -8,7 +8,7 @@
 #ifndef racedash_H
 #define racedash_H
 
-static uint8_t racedash[] = {
+static uint8_t racedash[] PROGMEM = {
   128, // width
   64, // height
 

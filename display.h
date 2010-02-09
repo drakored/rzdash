@@ -57,11 +57,11 @@ void Wave(int x, int y) { //TODO
 void RaceDash (float minimum, float maximum, float value) { //TODO
   
   GLCD.DrawBitmap(racedash, 0, 0, BLACK);
-  
+ 
   if (value < maximum/2) {
-  unsigned int mask1 = map(value, minimum, (maximum/2), 0, 30);
+  unsigned int mask1 = map(value/2, minimum, (maximum/2), 0, 30);
   mask1 = constrain(mask1, 0, 30);
-  GLCD.FillRect(1, mask1, 36, 30-mask1, WHITE);
+  GLCD.FillRect(1, 30-mask1, 36, 30-mask1, WHITE);
   GLCD.FillRect(1, 1, 125, 28, WHITE);
   }
   
