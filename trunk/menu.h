@@ -6,10 +6,6 @@ void CheckEcu() {
 
 void Menu1(int interval) {
 if (BarCreated == false) {
-//HBarGraphFrame(0, 9);
-//HBarGraphFrame(0, 25);
-//HBarGraphFrame(0, 41);
-//HBarGraphFrame(0, 57);
 BarCreated = true; 
 }
 
@@ -21,29 +17,33 @@ getRpm();
 getEct();
 getVtec();
 getInj();
-RaceDash(0, 9000, rpm);
+getVss();
+RaceDash(0, 8200, rpm);
+GLCD.CursorTo(8+3, 5); 
+GLCD.Puts("         ");
+GLCD.CursorTo(8, 5); 
+GLCD.Puts("Fl: ");
+  if (vssk >= MinimumSpeed) {
+    GLCD.Puts(FUELC);
+    GLCD.Puts("L/100");
+  }
+  else {
+    GLCD.Puts(FUELSC);
+    GLCD.Puts("L/H");
+  }
 
-//fRpm(0, 0);
-//rpm = 5600;
-//HBarGraphFill(0, 9500, rpm, 0, 9);
-//fDuty(0, 2);
-//duty = 34;
-//HBarGraphFill(0, 100, duty, 0, 25);
+    GLCD.CursorTo(8+3, 6); 
+    GLCD.Puts("         ");
+    GLCD.CursorTo(8, 6); 
+    GLCD.Puts("Wt: ");
+    GLCD.Puts(ECTC);
+    GLCD.Puts("C");    
 
-/*
-GLCD.CursorTo(0, 0); 
-GLCD.Puts("       ");
-GLCD.CursorTo(0, 0); 
-GLCD.PrintNumber(analogRead(1));
-GLCD.CursorTo(0, 2); 
-GLCD.Puts("       ");
-GLCD.CursorTo(0, 2); 
-GLCD.PrintNumber(analogRead(0)*4);
-fOilTemperature(0, 4);
-HBarGraphFill(0, 180, int(GetShhTemp(analogRead(1))+30), 0, 41);
-fOilPressure(0, 6);
-HBarGraphFill(0, 100, GetVDOPressure(analogRead(0)*4)*10, 0, 57);
-*/
+if (vtec) {
+    GLCD.CursorTo(1, 6); 
+    GLCD.Puts("VTEC"); 
+}
+
    }
 }
 
@@ -178,11 +178,15 @@ if (vssk >= MinimumSpeed) {
 BigGraphFill(0, 20, fuelc, 32);
 GLCD.CursorTo(1, 5); 
 GLCD.Puts(FUELC);
+GLCD.CursorTo(15, 6); 
+GLCD.Puts("L/100");
 }
 else {
-BigGraphFill(0, 20, fuelsc, 32);
+BigGraphFill(0, 8, fuelsc, 32);
 GLCD.CursorTo(1, 5); 
 GLCD.Puts(FUELSC);
+GLCD.CursorTo(16, 6); 
+GLCD.Puts("L/HR");
 }
 }
 }
