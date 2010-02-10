@@ -628,7 +628,7 @@ static long LastPoll3 = 0;
                         
                     if (millis() - LastPoll3 > 500) {
                          LastPoll3 = millis();   
-                        floatToString(FUELC, fuelcsmoothed, 2, 0);
+                        floatToString(FUELC, fuelcsmoothed, 1, 0);
                         floatToString(FUELSC, fuelscsmoothed, 2, 0);
                     }
                           
