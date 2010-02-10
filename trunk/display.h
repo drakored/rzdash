@@ -55,8 +55,13 @@ void Wave(int x, int y) { //TODO
     
 void RaceDash (float minimum, float maximum, float value) { //TODO
   
- short angle[2][66] = {    1,   1,   1,  1,  1,  1,   1,   1,  1,  1,   1,  2,  2,  2,   2,  3,   3,  3,  4,  4,   4,  5,  5,  6,  6,   7,  7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 16, 16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
-                           29,28,27,26,25,24,23,22,21,20,19,19,18,17,16,16,15,14,14,13,12,12,11,11,10,10, 9, 9, 8, 8, 7 , 7,   6,    6,  5,    5,    4,   4,   3,    4,   3,   3,   3,    2,   2,    2,   2,   1,    1,   1 ,   1,   1,   1,   1,   1,    1,   1,    1,   1,    1,    1,  1,   1,    1,    1,   1};
+// short angle[2][66] = {    1,   1,   1,  1,  1,  1,   1,   1,  1,  1,   1,  2,  2,  2,   2,  3,   3,  3,  4,  4,   4,  5,  5,  6,  6,   7,  7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 16, 16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
+//                           29,28,27,26,25,24,23,22,21,20,19,19,18,17,16,16,15,14,14,13,12,12,11,11,10,10, 9, 9, 8, 8, 7 , 7,   6,    6,  5,    5,    4,   4,   3,    4,   3,   3,   3,    2,   2,    2,   2,   1,    1,   1 ,   1,   1,   1,   1,   1,    1,   1,    1,   1,    1,    1,  1,   1,    1,    1,   1};
+
+short angle[2][30] = {   1,    1,     1,     1,    1,    1,    2,    2,    3,     4,    5,    6,    8,    9,  10,  12,  14,  16,  17,  19, 20, 22, 24, 26, 28, 30, 32 , 34, 36, 37,
+                                       29,  27,  25,  23,  21,  19,  18,  16,  15,  14,  12,  11,  10,  8,    6,    5,     4,    3,   2,     2,    1,   1,   1,   1,    1,     1,    1,   1,   1,   1  };
+                                       
+                                      
  
   GLCD.DrawBitmap(racedash, 0, 0, BLACK);
  
@@ -71,21 +76,21 @@ void RaceDash (float minimum, float maximum, float value) { //TODO
   
    if ( value > maximum/3 && value < (maximum/3)*2 ) {
      
- 
+ /*
         unsigned int mask2x = map(value, (maximum/3), (maximum/3)*2, 0, 35);
         mask2x = constrain(mask2x, 0, 35);
          unsigned int mask2y = map(value, (maximum/3), (maximum/3)*2, 0, 28);
         mask2y = constrain(mask2y, 0, 28);
         GLCD.FillRect(1+mask2x, 1, 35-mask2x, 28-mask2y, WHITE);
-
-/*      // WORKS BUT CRASHES
-        unsigned int mask2 = map(value, (maximum/3), (maximum/3)*2, 0, 66);
-        mask2 = constrain(mask2, 0, 66);
+*/
+      // WORKS BUT CRASHES
+        unsigned int mask2 = map(value, (maximum/3), (maximum/3)*2, 0, 30);
+        mask2 = constrain(mask2, 0, 30);
         
-        for (short i = 65; i >= mask2; i--) {
+        for (short i = 29; i >= mask2; i--) {
               GLCD.DrawLine(angle[0][i], angle[1][i], 37, 29, WHITE);
         }
-        */
+        
         GLCD.FillRect(37, 1, 88, 28, WHITE); 
   }
   
