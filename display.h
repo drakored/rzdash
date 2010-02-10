@@ -76,21 +76,21 @@ short angle[2][30] = {   1,    1,     1,     1,    1,    1,    2,    2,    3,   
   
    if ( value > maximum/3 && value < (maximum/3)*2 ) {
      
- /*
+
         unsigned int mask2x = map(value, (maximum/3), (maximum/3)*2, 0, 35);
         mask2x = constrain(mask2x, 0, 35);
          unsigned int mask2y = map(value, (maximum/3), (maximum/3)*2, 0, 28);
         mask2y = constrain(mask2y, 0, 28);
         GLCD.FillRect(1+mask2x, 1, 35-mask2x, 28-mask2y, WHITE);
-*/
-      // WORKS BUT CRASHES
+
+/*      // WORKS BUT CRASHES
         unsigned int mask2 = map(value, (maximum/3), (maximum/3)*2, 0, 30);
         mask2 = constrain(mask2, 0, 30);
         
         for (short i = 29; i >= mask2; i--) {
               GLCD.DrawLine(angle[0][i], angle[1][i], 37, 29, WHITE);
         }
-        
+*/        
         GLCD.FillRect(37, 1, 88, 28, WHITE); 
   }
   
