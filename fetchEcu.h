@@ -201,7 +201,8 @@ static long LastPoll = 0;
 		fBuffer = Serial1.read();
 
                 // Display the MAP in mBar
-                TempInt = ((1764 / 255) * fBuffer);
+                TempF = ((1764 / 255) * fBuffer);
+                TempInt = TempF;
                 sprintf(MAPMB,"%d",TempInt);
                 mapmb = TempInt;
 
