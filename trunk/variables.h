@@ -36,7 +36,7 @@
  boolean BarCreated = false;
  short CurMenu = 1; //startup menu
  short SerialRelayStep = 0;
- short MinimumSpeed = 40;
+ short MinimumSpeed = 20;
  //
 
 
