@@ -1,0 +1,26 @@
+Byte Name                 Units  Scalar    Offset    Min       Max       Signed? Bitmask
+1    Engine Speed 50      rpm    50        0         0         12799.80469    n     -                                           
+2    Engine Load          kPa    0.668750  5.480000  5.480000  176.67740      n     -                                                         
+3    Throttle             %      0.390625  0         0         99.99847       n     -                                     
+4    Air Temp             C      1         0         -128      127            y     -                            
+5    Coolant Temp         C      1         0         -128      127            y     -                                
+6    Battery Volts        Volts  0.062500  0         0         15.93750       n     -                                              
+7    Fuel Inj Duty Pri    %      0.976562  0         0         249.02344      n     -                                               
+8    Fuel Inj Pulse Pri   ÊS     1280      0         0         327675         n     -                                          
+9    Ign Timing           Degre  0.351562  -17       -17       72.64844       n     -                                               
+10   TC Ign Cut           %      0.390625  0         0         99.60938       n     -                                        
+11   TC Fuel Cut          %      0.390625  0         0         99.60938       n     -                                         
+12   Baro Pressure        kPa    0.500000  0         0         127.50000      n     -                                              
+13   O2 #1                AFR    0.025273  3.235000  3.235000  9.679727       n     -                                                   
+14   Vehicle Speed        KPH    1.609000  0         0         411.89771      n     -                                              
+15   Gear Calculated             1         0         0         255            n     -                                
+
+Serial Port Settings
+Transmission sequence : Header byte, stream data, checksum byte
+Header byte : 0x55
+Baud rate : 38400
+Parity : Ignore
+Data size : 8 bits
+Stop bits : 1
+Stream size : 17
+Checksum : standard data sum
