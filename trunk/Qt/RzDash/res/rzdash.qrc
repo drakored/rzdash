@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Rz_Splash.png</file>
+        <file>qt-logo.png</file>
+    </qresource>
+</RCC>
