@@ -1,3 +1,0 @@
-#summary TODO
-
-I will put some info about the module's wiring soon.
