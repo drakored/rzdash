@@ -6,24 +6,23 @@
 
  * Ectune
  * Crome 1.4+
- * NG62
+ * AEM EMS
 
 * Under developpement: *
 
- * AEM EMS
  * MOTEC 
+ * Hondata S300
+ * Hondata Kpro
 
 === Features ===
 
  * Real time dataloging
- * Instant fuel consumption (L/100km, MPG will be implemented soon)
- * Shift Light
- * Buzzer (overheating alarm...)
- * Analog Sensors: oil temp & pressure
- * Serial Relay. (you can still use you laptop to datalog the ecu by connecting to the module)
+ * Instant fuel consumption (needs tweaking)
+ * Shift Light/Message
+ * Buzzer (overheating alarm, etc...)
+ * Analog Sensors: oil temp & pressure (will require an external board)
 
 === TODO ====
 
- * Lap Timer (like alfano does)
+ * Lap Timer / GPS with position on racetrack
  * Bigger screen for race application
- * PCB to replace the shield
