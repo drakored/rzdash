@@ -2,22 +2,16 @@
 
 = Introduction =
 
-RzDash is based on Arduino, it uses an Arduino Mega module to process and display data.
+RzDash is based on Qt4 plus a couple external libraries: 
+- Qserialdevice (serial, you guessed it)
+- QWT (graphs)
 
-* The hardware is based on a few simple things: *
-
- * Arduino Mega
- * KS0108 Graphic LCD
- * Arduino Mega proto shield
- * 5V switching power supply (based on a LM2575 ic)
- * a floppy flat cable to connect the LCD (ATA 33)
-
-I'm using a special library to drive the LCD. It uses a frame buffer to accelerate display, it's twice as fast.
+It can run on multiple hardware, Pc, as well as embedded devices like a tablet.
 
 == Why ? ==
 
 I searched on the web for such systems, I did not find anything that had the features I wanted.
-It's pretty easy to datalog a Honda ECU, all you need is a custom rom with datalog enable, a serial ttl to USB cable, a laptop and that's it.
+It's pretty easy to datalog a Honda ECU, all you need is a custom rom with datalog enabled, a TTL (serial) to USB cable, a laptop with the right software and that's it.
 
 The problem is, I wanted to keep an eye on my engine's constants while driving, without the hassle of having a laptop in my car.
 
