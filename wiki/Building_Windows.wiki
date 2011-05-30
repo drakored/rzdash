@@ -1,3 +1,5 @@
+#summary Building on Windows. (Visual Studio C++)
+
 = Introduction =
 This guide will explain how to build RzDash and Dmul on the windows platform using the VC compiler.
 
