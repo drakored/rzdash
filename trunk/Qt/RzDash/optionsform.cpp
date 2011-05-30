@@ -6,7 +6,7 @@ optionsForm::optionsForm(QWidget *parent) :
     ui(new Ui::optionsForm)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::FramelessWindowHint); //Set a frameless window
+    //this->setWindowFlags(Qt::FramelessWindowHint); //Set a frameless window
     myProcess = new QProcess(this);
 
     settings  = new QSettings("RzCrew", "RzDash", this);
