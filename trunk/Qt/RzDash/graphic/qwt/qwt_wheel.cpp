@@ -7,13 +7,14 @@
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
 
-#include "qwt_wheel.h"
-#include "qwt_math.h"
-#include "qwt_painter.h"
 #include <qevent.h>
 #include <qdrawutil.h>
 #include <qpainter.h>
 #include <qstyle.h>
+#include "qwt_math.h"
+#include "qwt_painter.h"
+#include "qwt_paint_buffer.h"
+#include "qwt_wheel.h"
 
 #define NUM_COLORS 30
 
@@ -28,6 +29,9 @@ public:
         intBorder = 2;
         borderWidth = 2;
         wheelWidth = 20;
+#if QT_VERSION < 0x040000
+        allocContext = 0;
+#endif
     };
 
     QRect sliderRect;
@@ -37,60 +41,105 @@ public:
     int intBorder;
     int borderWidth;
     int wheelWidth;
+#if QT_VERSION < 0x040000
+    int allocContext;
+#endif
     QColor colors[NUM_COLORS];
 };
 
 //! Constructor
-QwtWheel::QwtWheel( QWidget *parent ):
-    QwtAbstractSlider( Qt::Horizontal, parent )
+QwtWheel::QwtWheel(QWidget *parent): 
+    QwtAbstractSlider(Qt::Horizontal, parent)
 {
     initWheel();
 }
+
+#if QT_VERSION < 0x040000
+QwtWheel::QwtWheel(QWidget *parent, const char *name): 
+    QwtAbstractSlider(Qt::Horizontal, parent)
+{
+    setName(name);
+    initWheel();
+}
+#endif
 
 void QwtWheel::initWheel()
 {
     d_data = new PrivateData;
 
-    setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Fixed );
+#if QT_VERSION < 0x040000
+    setWFlags(Qt::WNoAutoErase);
+#endif
 
-    setAttribute( Qt::WA_WState_OwnSizePolicy, false );
-    setUpdateTime( 50 );
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+#if QT_VERSION >= 0x040000
+    setAttribute(Qt::WA_WState_OwnSizePolicy, false);
+#else
+    clearWState( WState_OwnSizePolicy );
+#endif
+
+    setUpdateTime(50);
 }
 
 //! Destructor
-QwtWheel::~QwtWheel()
+QwtWheel::~QwtWheel()  
 {
+#if QT_VERSION < 0x040000
+    if ( d_data->allocContext )
+        QColor::destroyAllocContext( d_data->allocContext );
+#endif
     delete d_data;
 }
 
 //! Set up the color array for the background pixmap.
 void QwtWheel::setColorArray()
 {
-    if ( !d_data->colors )
+    if ( !d_data->colors ) 
         return;
 
-    const QColor light = palette().color( QPalette::Light );
-    const QColor dark = palette().color( QPalette::Dark );
+#if QT_VERSION < 0x040000
+    const QColor light = colorGroup().light();
+    const QColor dark = colorGroup().dark();
+#else
+    const QColor light = palette().color(QPalette::Light);
+    const QColor dark = palette().color(QPalette::Dark);
+#endif
 
     if ( !d_data->colors[0].isValid() ||
         d_data->colors[0] != light ||
         d_data->colors[NUM_COLORS - 1] != dark )
     {
+#if QT_VERSION < 0x040000
+        if ( d_data->allocContext )
+            QColor::destroyAllocContext( d_data->allocContext );
+
+        d_data->allocContext = QColor::enterAllocContext();
+#endif
+
         d_data->colors[0] = light;
         d_data->colors[NUM_COLORS - 1] = dark;
 
         int dh, ds, dv, lh, ls, lv;
-        d_data->colors[0].getRgb( &lh, &ls, &lv );
-        d_data->colors[NUM_COLORS - 1].getRgb( &dh, &ds, &dv );
+#if QT_VERSION < 0x040000
+        d_data->colors[0].rgb(&lh, &ls, &lv);
+        d_data->colors[NUM_COLORS - 1].rgb(&dh, &ds, &dv);
+#else
+        d_data->colors[0].getRgb(&lh, &ls, &lv);
+        d_data->colors[NUM_COLORS - 1].getRgb(&dh, &ds, &dv);
+#endif
 
         for ( int i = 1; i < NUM_COLORS - 1; ++i )
         {
-            const double factor = double( i ) / double( NUM_COLORS );
+            const double factor = double(i) / double(NUM_COLORS);
 
-            d_data->colors[i].setRgb( lh + int( double( dh - lh ) * factor ),
-                      ls + int( double( ds - ls ) * factor ),
-                      lv + int( double( dv - lv ) * factor ) );
+            d_data->colors[i].setRgb( lh + int( double(dh - lh) * factor ),
+                      ls + int( double(ds - ls) * factor ),
+                      lv + int( double(dv - lv) * factor ));
         }
+#if QT_VERSION < 0x040000
+        QColor::leaveAllocContext();
+#endif
     }
 }
 
@@ -104,7 +153,7 @@ void QwtWheel::setColorArray()
   \param cnt Number of grooves per 360 degrees
   \sa tickCnt()
 */
-void QwtWheel::setTickCnt( int cnt )
+void QwtWheel::setTickCnt(int cnt)
 {
     d_data->tickCnt = qwtLim( cnt, 6, 50 );
     update();
@@ -114,7 +163,7 @@ void QwtWheel::setTickCnt( int cnt )
   \return Number of grooves in the wheel's surface.
   \sa setTickCnt()
 */
-int QwtWheel::tickCnt() const
+int QwtWheel::tickCnt() const 
 {
     return d_data->tickCnt;
 }
@@ -139,11 +188,11 @@ double QwtWheel::mass() const
   \param w border width
   \sa internalBorder()
 */
-void QwtWheel::setInternalBorder( int w )
+void QwtWheel::setInternalBorder(int w)
 {
-    const int d = qMin( width(), height() ) / 3;
-    w = qMin( w, d );
-    d_data->intBorder = qMax( w, 1 );
+    const int d = qwtMin( width(), height() ) / 3;
+    w = qwtMin( w, d );
+    d_data->intBorder = qwtMax( w, 1 );
     layoutWheel();
 }
 
@@ -151,34 +200,39 @@ void QwtWheel::setInternalBorder( int w )
    \return Internal border width of the wheel.
    \sa setInternalBorder()
 */
-int QwtWheel::internalBorder() const
+int QwtWheel::internalBorder() const 
 {
     return d_data->intBorder;
 }
 
-/*!
+/*! 
    Draw the Wheel's background gradient
 
    \param painter Painter
    \param r Bounding rectangle
 */
-void QwtWheel::drawWheelBackground( QPainter *painter, const QRect &r )
+void QwtWheel::drawWheelBackground(QPainter *painter, const QRect &r )
 {
     painter->save();
 
     //
     // initialize pens
     //
-    const QColor light = palette().color( QPalette::Light );
-    const QColor dark = palette().color( QPalette::Dark );
+#if QT_VERSION < 0x040000
+    const QColor light = colorGroup().light();
+    const QColor dark = colorGroup().dark();
+#else
+    const QColor light = palette().color(QPalette::Light);
+    const QColor dark = palette().color(QPalette::Dark);
+#endif
 
     QPen lightPen;
-    lightPen.setColor( light );
-    lightPen.setWidth( d_data->intBorder );
+    lightPen.setColor(light);
+    lightPen.setWidth(d_data->intBorder);
 
     QPen darkPen;
-    darkPen.setColor( dark );
-    darkPen.setWidth( d_data->intBorder );
+    darkPen.setColor(dark);
+    darkPen.setWidth(d_data->intBorder);
 
     setColorArray();
 
@@ -193,32 +247,32 @@ void QwtWheel::drawWheelBackground( QPainter *painter, const QRect &r )
     {
         const int rx = r.x();
         int ry = r.y() + d_data->intBorder;
-        const int rh = r.height() - 2 * d_data->intBorder;
+        const int rh = r.height() - 2* d_data->intBorder;
         const int rw = r.width();
         //
         //  draw shaded background
         //
         int x1 = rx;
-        for ( int i = 1; i < nFields; i++ )
+        for (int i = 1; i < nFields; i++ )
         {
-            const int x2 = rx + ( rw * i ) / nFields;
-            painter->fillRect( x1, ry, x2 - x1 + 1 , rh,
-                d_data->colors[qAbs( i-hiPos )] );
+            const int x2 = rx + (rw * i) / nFields;
+            painter->fillRect(x1, ry, x2-x1 + 1 ,rh, 
+                d_data->colors[qwtAbs(i-hiPos)]);
             x1 = x2 + 1;
         }
-        painter->fillRect( x1, ry, rw - ( x1 - rx ), rh,
-            d_data->colors[NUM_COLORS - 1] );
+        painter->fillRect(x1, ry, rw - (x1 - rx), rh, 
+            d_data->colors[NUM_COLORS - 1]);
 
         //
         // draw internal border
         //
-        painter->setPen( lightPen );
+        painter->setPen(lightPen);
         ry = r.y() + d_data->intBorder / 2;
-        painter->drawLine( r.x(), ry, r.x() + r.width() , ry );
+        painter->drawLine(r.x(), ry, r.x() + r.width() , ry);
 
-        painter->setPen( darkPen );
-        ry = r.y() + r.height() - ( d_data->intBorder - d_data->intBorder / 2 );
-        painter->drawLine( r.x(), ry , r.x() + r.width(), ry );
+        painter->setPen(darkPen);
+        ry = r.y() + r.height() - (d_data->intBorder - d_data->intBorder / 2);
+        painter->drawLine(r.x(), ry , r.x() + r.width(), ry);
     }
     else // Qt::Vertical
     {
@@ -233,24 +287,24 @@ void QwtWheel::drawWheelBackground( QPainter *painter, const QRect &r )
         int y1 = ry;
         for ( int i = 1; i < nFields; i++ )
         {
-            const int y2 = ry + ( rh * i ) / nFields;
-            painter->fillRect( rx, y1, rw, y2 - y1 + 1,
-                d_data->colors[qAbs( i-hiPos )] );
+            const int y2 = ry + (rh * i) / nFields;
+            painter->fillRect(rx, y1, rw, y2-y1 + 1, 
+                d_data->colors[qwtAbs(i-hiPos)]);
             y1 = y2 + 1;
         }
-        painter->fillRect( rx, y1, rw, rh - ( y1 - ry ),
-            d_data->colors[NUM_COLORS - 1] );
+        painter->fillRect(rx, y1, rw, rh - (y1 - ry), 
+            d_data->colors[NUM_COLORS - 1]);
 
         //
         //  draw internal borders
         //
-        painter->setPen( lightPen );
+        painter->setPen(lightPen);
         rx = r.x() + d_data->intBorder / 2;
-        painter->drawLine( rx, r.y(), rx, r.y() + r.height() );
+        painter->drawLine(rx, r.y(), rx, r.y() + r.height());
 
-        painter->setPen( darkPen );
-        rx = r.x() + r.width() - ( d_data->intBorder - d_data->intBorder / 2 );
-        painter->drawLine( rx, r.y(), rx , r.y() + r.height() );
+        painter->setPen(darkPen);
+        rx = r.x() + r.width() - (d_data->intBorder - d_data->intBorder / 2);
+        painter->drawLine(rx, r.y(), rx , r.y() + r.height());
     }
 
     painter->restore();
@@ -270,7 +324,7 @@ void QwtWheel::drawWheelBackground( QPainter *painter, const QRect &r )
   \param angle total angle in degrees
   \sa totalAngle()
 */
-void QwtWheel::setTotalAngle( double angle )
+void QwtWheel::setTotalAngle(double angle)
 {
     if ( angle < 0.0 )
         angle = 0.0;
@@ -283,7 +337,7 @@ void QwtWheel::setTotalAngle( double angle )
   \return Total angle which the wheel can be turned.
   \sa setTotalAngle()
 */
-double QwtWheel::totalAngle() const
+double QwtWheel::totalAngle() const 
 {
     return d_data->totalAngle;
 }
@@ -295,21 +349,29 @@ double QwtWheel::totalAngle() const
    Defaults to Qt::Horizontal.
   \sa QwtAbstractSlider::orientation()
 */
-void QwtWheel::setOrientation( Qt::Orientation o )
+void QwtWheel::setOrientation(Qt::Orientation o)
 {
     if ( orientation() == o )
         return;
 
-    if ( !testAttribute( Qt::WA_WState_OwnSizePolicy ) )
+#if QT_VERSION >= 0x040000
+    if ( !testAttribute(Qt::WA_WState_OwnSizePolicy) )
+#else
+    if ( !testWState( WState_OwnSizePolicy ) ) 
+#endif
     {
         QSizePolicy sp = sizePolicy();
         sp.transpose();
-        setSizePolicy( sp );
+        setSizePolicy(sp);
 
-        setAttribute( Qt::WA_WState_OwnSizePolicy, false );
+#if QT_VERSION >= 0x040000
+        setAttribute(Qt::WA_WState_OwnSizePolicy, false);
+#else
+        clearWState( WState_OwnSizePolicy );
+#endif
     }
 
-    QwtAbstractSlider::setOrientation( o );
+    QwtAbstractSlider::setOrientation(o);
     layoutWheel();
 }
 
@@ -323,7 +385,7 @@ void QwtWheel::setOrientation( Qt::Orientation o )
   \param angle Visible angle in degrees
   \sa viewAngle(), setTotalAngle()
 */
-void QwtWheel::setViewAngle( double angle )
+void QwtWheel::setViewAngle(double angle)
 {
     d_data->viewAngle = qwtLim( angle, 10.0, 175.0 );
     update();
@@ -333,7 +395,7 @@ void QwtWheel::setViewAngle( double angle )
   \return Visible portion of the wheel
   \sa setViewAngle(), totalAngle()
 */
-double QwtWheel::viewAngle() const
+double QwtWheel::viewAngle() const 
 {
     return d_data->viewAngle;
 }
@@ -353,16 +415,21 @@ void QwtWheel::drawWheel( QPainter *painter, const QRect &r )
     if ( maxValue() == minValue() || d_data->totalAngle == 0.0 )
         return;
 
-    const QColor light = palette().color( QPalette::Light );
-    const QColor dark = palette().color( QPalette::Dark );
+#if QT_VERSION < 0x040000
+    const QColor light = colorGroup().light();
+    const QColor dark = colorGroup().dark();
+#else
+    const QColor light = palette().color(QPalette::Light);
+    const QColor dark = palette().color(QPalette::Dark);
+#endif
 
-    const double sign = ( minValue() < maxValue() ) ? 1.0 : -1.0;
-    double cnvFactor = qAbs( d_data->totalAngle / ( maxValue() - minValue() ) );
+    const double sign = (minValue() < maxValue()) ? 1.0 : -1.0;
+    double cnvFactor = qwtAbs(d_data->totalAngle / (maxValue() - minValue()));
     const double halfIntv = 0.5 * d_data->viewAngle / cnvFactor;
     const double loValue = value() - halfIntv;
     const double hiValue = value() + halfIntv;
-    const double tickWidth = 360.0 / double( d_data->tickCnt ) / cnvFactor;
-    const double sinArc = qSin( d_data->viewAngle * M_PI / 360.0 );
+    const double tickWidth = 360.0 / double(d_data->tickCnt) / cnvFactor;
+    const double sinArc = sin(d_data->viewAngle * M_PI / 360.0);
     cnvFactor *= M_PI / 180.0;
 
 
@@ -371,7 +438,7 @@ void QwtWheel::drawWheel( QPainter *painter, const QRect &r )
     //
     if ( orientation() == Qt::Horizontal )
     {
-        const double halfSize = double( r.width() ) * 0.5;
+        const double halfSize = double(r.width()) * 0.5;
 
         int l1 = r.y() + d_data->intBorder;
         int l2 = r.y() + r.height() - d_data->intBorder - 1;
@@ -389,7 +456,7 @@ void QwtWheel::drawWheel( QPainter *painter, const QRect &r )
         //
         // draw tick marks
         //
-        for ( double tickValue = qCeil( loValue / tickWidth ) * tickWidth;
+        for ( double tickValue = ceil(loValue / tickWidth) * tickWidth;
             tickValue < hiValue; tickValue += tickWidth )
         {
             //
@@ -397,23 +464,23 @@ void QwtWheel::drawWheel( QPainter *painter, const QRect &r )
             //
             const int tickPos = r.x() + r.width()
                 - int( halfSize
-                    * ( sinArc + sign *  qSin( ( tickValue - value() ) * cnvFactor ) )
-                    / sinArc );
+                    * (sinArc + sign *  sin((tickValue - value()) * cnvFactor))
+                    / sinArc);
             //
             // draw vertical line
             //
-            if ( ( tickPos <= maxpos ) && ( tickPos > minpos ) )
+            if ( (tickPos <= maxpos) && (tickPos > minpos) )
             {
-                painter->setPen( dark );
-                painter->drawLine( tickPos - 1 , l1, tickPos - 1,  l2 );
-                painter->setPen( light );
-                painter->drawLine( tickPos, l1, tickPos, l2 );
+                painter->setPen(dark);
+                painter->drawLine(tickPos -1 , l1, tickPos - 1,  l2 );  
+                painter->setPen(light);
+                painter->drawLine(tickPos, l1, tickPos, l2);  
             }
         }
     }
     else if ( orientation() == Qt::Vertical )
     {
-        const double halfSize = double( r.height() ) * 0.5;
+        const double halfSize = double(r.height()) * 0.5;
 
         int l1 = r.x() + d_data->intBorder;
         int l2 = r.x() + r.width() - d_data->intBorder - 1;
@@ -430,7 +497,7 @@ void QwtWheel::drawWheel( QPainter *painter, const QRect &r )
         //
         // draw tick marks
         //
-        for ( double tickValue = qCeil( loValue / tickWidth ) * tickWidth;
+        for ( double tickValue = ceil(loValue / tickWidth) * tickWidth;
             tickValue < hiValue; tickValue += tickWidth )
         {
 
@@ -438,18 +505,18 @@ void QwtWheel::drawWheel( QPainter *painter, const QRect &r )
             // calculate position
             //
             const int tickPos = r.y() + int( halfSize *
-                ( sinArc + sign * qSin( ( tickValue - value() ) * cnvFactor ) )
-                / sinArc );
+                (sinArc + sign * sin((tickValue - value()) * cnvFactor))
+                / sinArc);
 
             //
             //  draw horizontal line
             //
-            if ( ( tickPos <= maxpos ) && ( tickPos > minpos ) )
+            if ( (tickPos <= maxpos) && (tickPos > minpos) )
             {
-                painter->setPen( dark );
-                painter->drawLine( l1, tickPos - 1 , l2, tickPos - 1 );
-                painter->setPen( light );
-                painter->drawLine( l1, tickPos, l2, tickPos );
+                painter->setPen(dark);
+                painter->drawLine(l1, tickPos - 1 ,l2, tickPos - 1);  
+                painter->setPen(light);
+                painter->drawLine(l1, tickPos, l2, tickPos);  
             }
         }
     }
@@ -487,7 +554,7 @@ double QwtWheel::getValue( const QPoint &p )
 }
 
 //! Qt Resize Event
-void QwtWheel::resizeEvent( QResizeEvent * )
+void QwtWheel::resizeEvent(QResizeEvent *)
 {
     layoutWheel( false );
 }
@@ -499,8 +566,8 @@ void QwtWheel::resizeEvent( QResizeEvent * )
 void QwtWheel::layoutWheel( bool update_geometry )
 {
     const QRect r = this->rect();
-    d_data->sliderRect.setRect( r.x() + d_data->borderWidth, r.y() + d_data->borderWidth,
-                                r.width() - 2*d_data->borderWidth, r.height() - 2*d_data->borderWidth );
+    d_data->sliderRect.setRect(r.x() + d_data->borderWidth, r.y() + d_data->borderWidth,
+        r.width() - 2*d_data->borderWidth, r.height() - 2*d_data->borderWidth);
 
     if ( update_geometry )
     {
@@ -510,34 +577,44 @@ void QwtWheel::layoutWheel( bool update_geometry )
 }
 
 //! Qt Paint Event
-void QwtWheel::paintEvent( QPaintEvent *e )
+void QwtWheel::paintEvent(QPaintEvent *e)
 {
     // Use double-buffering
     const QRect &ur = e->rect();
     if ( ur.isValid() )
     {
-        QPainter painter( this );
-        draw( &painter, ur );
+#if QT_VERSION < 0x040000
+        QwtPaintBuffer paintBuffer(this, ur);
+        draw(paintBuffer.painter(), ur);
+#else
+        QPainter painter(this);
+        draw(&painter, ur);
+#endif
     }
 }
 
-/*!
+/*! 
    Redraw panel and wheel
    \param painter Painter
 */
-void QwtWheel::draw( QPainter *painter, const QRect& )
+void QwtWheel::draw(QPainter *painter, const QRect&)
 {
     qDrawShadePanel( painter, rect().x(), rect().y(),
         rect().width(), rect().height(),
-        palette(), true, d_data->borderWidth );
+#if QT_VERSION < 0x040000
+        colorGroup(), 
+#else
+        palette(), 
+#endif
+        true, d_data->borderWidth );
 
     drawWheel( painter, d_data->sliderRect );
 
     if ( hasFocus() )
-        QwtPainter::drawFocusRect( painter, this );
+        QwtPainter::drawFocusRect(painter, this);
 }
 
-//! Notify value change
+//! Notify value change 
 void QwtWheel::valueChange()
 {
     QwtAbstractSlider::valueChange();
@@ -552,9 +629,9 @@ void QwtWheel::valueChange()
   \param scrollMode scrolling mode
   \param direction direction
 */
-void QwtWheel::getScrollMode( const QPoint &p, int &scrollMode, int &direction )
+void QwtWheel::getScrollMode( const QPoint &p, int &scrollMode, int &direction)
 {
-    if ( d_data->sliderRect.contains( p ) )
+    if ( d_data->sliderRect.contains(p) )
         scrollMode = ScrMouse;
     else
         scrollMode = ScrNone;
@@ -568,9 +645,9 @@ void QwtWheel::getScrollMode( const QPoint &p, int &scrollMode, int &direction )
   Assigning a mass turns the wheel into a flywheel.
   \param val the wheel's mass
 */
-void QwtWheel::setMass( double val )
+void QwtWheel::setMass(double val)
 {
-    QwtAbstractSlider::setMass( val );
+    QwtAbstractSlider::setMass(val);
 }
 
 /*!
@@ -580,7 +657,7 @@ void QwtWheel::setMass( double val )
   and the wheel width for vertical orientation.
   \param w the wheel's width
 */
-void QwtWheel::setWheelWidth( int w )
+void QwtWheel::setWheelWidth(int w)
 {
     d_data->wheelWidth = w;
     layoutWheel();
@@ -601,7 +678,7 @@ QSize QwtWheel::sizeHint() const
 QSize QwtWheel::minimumSizeHint() const
 {
     QSize sz( 3*d_data->wheelWidth + 2*d_data->borderWidth,
-        d_data->wheelWidth + 2*d_data->borderWidth );
+    d_data->wheelWidth + 2*d_data->borderWidth );
     if ( orientation() != Qt::Horizontal )
         sz.transpose();
     return sz;

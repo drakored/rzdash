@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- *
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -10,8 +10,8 @@
 #ifndef QWT_DIAL_NEEDLE_H
 #define QWT_DIAL_NEEDLE_H 1
 
-#include "qwt_global.h"
 #include <qpalette.h>
+#include "qwt_global.h"
 
 class QPainter;
 class QPoint;
@@ -19,10 +19,10 @@ class QPoint;
 /*!
   \brief Base class for needles that can be used in a QwtDial.
 
-  QwtDialNeedle is a pointer that indicates a value by pointing
-  to a specific direction.
-
-  Qwt is missing a set of good looking needles.
+  QwtDialNeedle is a pointer that indicates a value by pointing 
+  to a specific direction. 
+    
+  Qwt is missing a set of good looking needles. 
   Contributions are very welcome.
 
   \sa QwtDial, QwtCompass
@@ -35,24 +35,24 @@ public:
     virtual ~QwtDialNeedle();
 
     /*!
-      Draw the needle
+        Draw the needle
 
-      \param painter Painter
-      \param center Center of the dial, start position for the needle
-      \param length Length of the needle
-      \param direction Direction of the needle, in degrees counter clockwise
-      \param colorGroup Color group, used for painting
+        \param painter Painter
+        \param center Center of the dial, start position for the needle
+        \param length Length of the needle
+        \param direction Direction of the needle, in degrees counter clockwise
+        \param cg Color group, used for painting
     */
-    virtual void draw( QPainter *painter, const QPoint &center,
-        int length, double direction,
-        QPalette::ColorGroup colorGroup = QPalette::Active ) const = 0;
+    virtual void draw(QPainter *painter, const QPoint &center, 
+        int length, double direction, 
+        QPalette::ColorGroup cg = QPalette::Active) const = 0;
 
-    virtual void setPalette( const QPalette & );
-    const QPalette &palette() const;
+    virtual void setPalette(const QPalette &);
+    const QPalette &palette() const; 
 
 protected:
-    static void drawKnob( QPainter *, const QPoint &pos,
-        int width, const QBrush &, bool sunken );
+    static void drawKnob(QPainter *, const QPoint &pos, 
+        int width, const QBrush &, bool sunken);
 
 private:
     QPalette d_palette;
@@ -62,10 +62,9 @@ private:
   \brief A needle for dial widgets
 
   The following colors are used:
-
-  - QPalette::Mid\n
+  - QColorGroup::Mid\n
     Pointer
-  - QPalette::Base\n
+  - QColorGroup::base\n
     Knob
 
   \sa QwtDial, QwtCompass
@@ -81,19 +80,23 @@ public:
         Ray
     };
 
-    QwtDialSimpleNeedle( Style, bool hasKnob = true,
-        const QColor &mid = Qt::gray, const QColor &base = Qt::darkGray );
+    QwtDialSimpleNeedle(Style, bool hasKnob = true, 
+        const QColor &mid = Qt::gray, const QColor &base = Qt::darkGray);
 
-    virtual void draw( QPainter *, const QPoint &, int length,
-        double direction, QPalette::ColorGroup = QPalette::Active ) const;
+    virtual void draw(QPainter *, const QPoint &, int length, 
+        double direction, QPalette::ColorGroup = QPalette::Active) const;
 
-    static void drawArrowNeedle( QPainter *, const QPalette &, QPalette::ColorGroup,
-        const QPoint &, int length, int width, double direction, bool hasKnob );
+    static void drawArrowNeedle(QPainter *, 
+        const QPalette&, QPalette::ColorGroup,
+        const QPoint &, int length, int width, double direction, 
+        bool hasKnob);
 
-    static void drawRayNeedle( QPainter *, const QPalette &, QPalette::ColorGroup,
-        const QPoint &, int length, int width, double direction, bool hasKnob );
+    static void drawRayNeedle(QPainter *, 
+        const QPalette&, QPalette::ColorGroup,
+        const QPoint &, int length, int width, double direction, 
+        bool hasKnob);
 
-    void setWidth( int width );
+    void setWidth(int width);
     int width() const;
 
 private:
@@ -109,11 +112,11 @@ private:
   north and south.
 
   The following colors are used:
-  - QPalette::Light\n
+  - QColorGroup::Light\n
     Used for pointing south
-  - QPalette::Dark\n
+  - QColorGroup::Dark\n
     Used for pointing north
-  - QPalette::Base\n
+  - QColorGroup::Base\n
     Knob (ThinStyle only)
 
   \sa QwtDial, QwtCompass
@@ -128,25 +131,24 @@ public:
         TriangleStyle,
         ThinStyle
     };
+    QwtCompassMagnetNeedle(Style = TriangleStyle,
+        const QColor &light = Qt::white, const QColor &dark = Qt::red);
 
-    QwtCompassMagnetNeedle( Style = TriangleStyle,
-        const QColor &light = Qt::white, const QColor &dark = Qt::red );
+    virtual void draw(QPainter *, const QPoint &, int length, 
+        double direction, QPalette::ColorGroup = QPalette::Active) const;
 
-    virtual void draw( QPainter *, const QPoint &, int length,
-        double direction, QPalette::ColorGroup = QPalette::Active ) const;
-
-    static void drawTriangleNeedle( QPainter *,
+    static void drawTriangleNeedle(QPainter *, 
         const QPalette &, QPalette::ColorGroup,
-        const QPoint &, int length, double direction );
+        const QPoint &, int length, double direction); 
 
-    static void drawThinNeedle( QPainter *,
+    static void drawThinNeedle(QPainter *,
         const QPalette &, QPalette::ColorGroup,
-        const QPoint &, int length, double direction );
+        const QPoint &, int length, double direction);
 
 protected:
-    static void drawPointer( QPainter *painter, const QBrush &brush,
-        int colorOffset, const QPoint &center,
-        int length, int width, double direction );
+    static void drawPointer(QPainter *painter, const QBrush &brush,
+        int colorOffset, const QPoint &center, 
+        int length, int width, double direction);
 
 private:
     Style d_style;
@@ -157,9 +159,9 @@ private:
 
   QwtCompassWindArrow shows the direction where the wind comes from.
 
-  - QPalette::Light\n
+  - QColorGroup::Light\n
     Used for Style1, or the light half of Style2
-  - QPalette::Dark\n
+  - QColorGroup::Dark\n
     Used for the dark half of Style2
 
   \sa QwtDial, QwtCompass
@@ -175,22 +177,22 @@ public:
         Style2
     };
 
-    QwtCompassWindArrow( Style, const QColor &light = Qt::white,
-        const QColor &dark = Qt::gray );
+    QwtCompassWindArrow(Style, const QColor &light = Qt::white,
+        const QColor &dark = Qt::gray);
 
-    virtual void draw( QPainter *, const QPoint &, int length,
-        double direction, QPalette::ColorGroup = QPalette::Active ) const;
+    virtual void draw(QPainter *, const QPoint &, int length,
+        double direction, QPalette::ColorGroup = QPalette::Active) const;
 
-    static void drawStyle1Needle( QPainter *,
+    static void drawStyle1Needle(QPainter *, 
         const QPalette &, QPalette::ColorGroup,
-        const QPoint &, int length, double direction );
+        const QPoint &, int length, double direction);
 
-    static void drawStyle2Needle( QPainter *,
+    static void drawStyle2Needle(QPainter *, 
         const QPalette &, QPalette::ColorGroup,
-        const QPoint &, int length, double direction );
+        const QPoint &, int length, double direction);
 
 private:
     Style d_style;
 };
 
-#endif 
+#endif // QWT_DIAL_NEEDLE_H
