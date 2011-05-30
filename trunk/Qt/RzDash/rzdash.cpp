@@ -5,7 +5,7 @@ rzdash::rzdash(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::cluster)
 {
-    qDebug("RzDash Starting...\n");
+    qDebug("Initialiazing...\n");
 
     ui->setupUi(this);
     m_refreshTimer = new QTimer();
@@ -34,7 +34,9 @@ rzdash::rzdash(QWidget *parent) :
     ui->plot_fuel->setAxisScale(QwtPlot::xBottom, 0, x.size());
 
     //this->splash();
+    qDebug("Setting up...\n");
     this->setup();
+    qDebug("Done, starting.\n");
     this->selectEngine();
 
 }
@@ -130,7 +132,7 @@ void rzdash::splash()
     splash->show();
     splash->repaint();
 
-    splash->showMessage("mobyfab@free.fr", Qt::AlignHCenter | Qt::AlignTop, Qt::white);
+    splash->showMessage("mobyfab@gmail.com", Qt::AlignHCenter | Qt::AlignTop, Qt::white);
 
     splash->finish(this);
 }
