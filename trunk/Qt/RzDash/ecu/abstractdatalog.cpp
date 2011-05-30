@@ -3,18 +3,13 @@
 AbstractDatalog::AbstractDatalog(QObject *parent) :
         QObject(parent)
 {
-//QThread::moveToThread(this);
 //qDebug() << "New Datalog Engine... ID:" << QString::number(this->thread()->currentThreadId() , 16).prepend("0x");
 //qDebug() << "New Datalog Engine...";
-//this->start();
 }
 
 AbstractDatalog::~AbstractDatalog()
 {
-    //qDebug() << "Deleting Datalog Engine... ID:" << QString::number(this->thread()->currentThreadId() , 16).prepend("0x");
     qDebug() << "Deleting Datalog Engine...";
-    //this->quit();
-    //this->wait(1000);
     this->port->deleteLater();
     usleep(SLEEP);
     //delete port;
