@@ -5,7 +5,7 @@ rzdash::rzdash(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::cluster)
 {
-    qDebug("Welcome to RzDash!\n");
+    qDebug("RzDash Starting...\n");
 
     ui->setupUi(this);
     m_refreshTimer = new QTimer();
@@ -42,7 +42,7 @@ rzdash::rzdash(QWidget *parent) :
 rzdash::~rzdash()
 {
     qDebug("Exiting...");
-    qDebug() << "Main Thread ID: " << QString::number(this->thread()->currentThreadId() , 16).prepend("0x");
+    //qDebug() << "Main Thread ID: " << QString::number(this->thread()->currentThreadId() , 16).prepend("0x");
     engineThread.quit();
     delete engine;
     delete m_refreshTimer;
