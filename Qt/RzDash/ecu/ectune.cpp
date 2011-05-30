@@ -14,7 +14,7 @@ void eCtune::run() {
     connect(this,SIGNAL(stopRefreshTimer()),&m_refreshTimer,SLOT(stop()));
     connect(&m_refreshTimer,SIGNAL(timeout()),this,SLOT(refresh()));
 
-    m_timeoutTimer.setInterval(200);
+    m_timeoutTimer.setInterval(150);
     m_timeoutTimer.setSingleShot(true);
     connect(this,SIGNAL(startTimeoutTimer()),&m_timeoutTimer,SLOT(start()));
     connect(this,SIGNAL(stopTimeoutTimer()),&m_timeoutTimer,SLOT(stop()));
@@ -147,7 +147,7 @@ bool eCtune::waitValues() {
 
     //m_Data = port->read(0x34);
     m_Data = port->readAll();
-    qDebug() << "Bytes read:" << QString::number(m_Data.size(), 16).prepend("0x");
+    //qDebug() << "Bytes read:" << QString::number(m_Data.size(), 16).prepend("0x");
 
 /*
     int num, pos;

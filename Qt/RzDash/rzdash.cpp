@@ -24,7 +24,7 @@ rzdash::rzdash(QWidget *parent) :
     // add curves
     fuelcurve = new QwtPlotCurve("Fuel");
     fuelcurve->setPen(QPen(Qt::red, 2.0));
-    //fuelcurve->setRawSamples(x.data(), y.data(), x.size());
+    fuelcurve->setRawData(x.data(), y.data(), x.size());
     fuelcurve->attach(ui->plot_fuel);
     fuelcurve->setRenderHint(QwtPlotItem::RenderAntialiased, true);
     //ui->plot_fuel->setTitle("TPS");
