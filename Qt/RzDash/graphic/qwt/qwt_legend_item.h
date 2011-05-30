@@ -7,6 +7,8 @@
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
 
+// vim: expandtab
+
 #ifndef QWT_LEGEND_ITEM_H
 #define QWT_LEGEND_ITEM_H
 
@@ -14,40 +16,78 @@
 #include "qwt_legend.h"
 #include "qwt_text.h"
 #include "qwt_text_label.h"
-#include <qpixmap.h>
+
+class QPainter;
+class QPen;
+class QwtSymbol;
 
 /*!
-  \brief A widget representing something on a QwtLegend().
+  \brief A legend label
+
+  QwtLegendItem represents a curve on a legend.
+  It displays an curve identifier with an explaining text.
+  The identifier might be a combination of curve symbol and line.
+  In readonly mode it behaves like a label, otherwise like 
+  an unstylish push button.
+
+  \sa QwtLegend, QwtPlotCurve
 */
 class QWT_EXPORT QwtLegendItem: public QwtTextLabel
 {
     Q_OBJECT
 public:
-    explicit QwtLegendItem( QWidget *parent = 0 );
+    
+    /*!
+       \brief Identifier mode
+
+       Default is ShowLine | ShowText
+       \sa identifierMode(), setIdentifierMode()
+     */
+
+    enum IdentifierMode
+    {
+        NoIdentifier = 0,
+        ShowLine = 1,
+        ShowSymbol = 2,
+        ShowText = 4
+    };
+
+    explicit QwtLegendItem(QWidget *parent = 0);
+    explicit QwtLegendItem(const QwtSymbol &, const QPen &,
+        const QwtText &, QWidget *parent = 0);
     virtual ~QwtLegendItem();
 
-    void setItemMode( QwtLegend::LegendItemMode );
+    virtual void setText(const QwtText &);
+
+    void setItemMode(QwtLegend::LegendItemMode);
     QwtLegend::LegendItemMode itemMode() const;
 
-    void setSpacing( int spacing );
+    void setIdentifierMode(int);
+    int identifierMode() const;
+
+    void setIdentifierWidth(int width);
+    int identifierWidth() const;
+
+    void setSpacing(int spacing);
     int spacing() const;
 
-    virtual void setText( const QwtText & );
+    void setSymbol(const QwtSymbol &);
+    const QwtSymbol& symbol() const;
 
-    void setIdentifier( const QPixmap & );
-    QPixmap identifier() const;
+    void setCurvePen(const QPen &);
+    const QPen& curvePen() const;
 
-    void setIdentifierSize( const QSize & );
-    QSize identifierSize() const;
+    virtual void drawIdentifier(QPainter *, const QRect &) const;
+    virtual void drawItem(QPainter *p, const QRect &) const; 
 
     virtual QSize sizeHint() const;
 
     bool isChecked() const;
 
-public Q_SLOTS:
-    void setChecked( bool on );
+public slots:
+    void setChecked(bool on);
 
-Q_SIGNALS:
+signals:
     //! Signal, when the legend item has been clicked
     void clicked();
 
@@ -58,21 +98,25 @@ Q_SIGNALS:
     void released();
 
     //! Signal, when the legend item has been toggled
-    void checked( bool );
+    void checked(bool);
 
 protected:
-    void setDown( bool );
+    void setDown(bool);
     bool isDown() const;
 
-    virtual void paintEvent( QPaintEvent * );
-    virtual void mousePressEvent( QMouseEvent * );
-    virtual void mouseReleaseEvent( QMouseEvent * );
-    virtual void keyPressEvent( QKeyEvent * );
-    virtual void keyReleaseEvent( QKeyEvent * );
+    virtual void paintEvent(QPaintEvent *);
+    virtual void mousePressEvent(QMouseEvent *);
+    virtual void mouseReleaseEvent(QMouseEvent *);
+    virtual void keyPressEvent(QKeyEvent *);
+    virtual void keyReleaseEvent(QKeyEvent *);
+
+    virtual void drawText(QPainter *, const QRect &);
 
 private:
+    void init(const QwtText &);
+
     class PrivateData;
     PrivateData *d_data;
 };
 
-#endif 
+#endif // QWT_LEGEND_ITEM_H

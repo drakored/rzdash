@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- *
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -10,22 +10,24 @@
 #ifndef QWT_MATH_H
 #define QWT_MATH_H
 
-#include "qwt_global.h"
-
-#if defined(_MSC_VER)
-/*
-  Microsoft says:
-
-  Define _USE_MATH_DEFINES before including math.h to expose these macro
-  definitions for common math constants.  These are placed under an #ifdef
-  since these commonly-defined names are not part of the C/C++ standards.
-*/
-#define _USE_MATH_DEFINES 1
-#endif
-
+#include <math.h>
 #include <qpoint.h>
-#include <qmath.h>
 #include "qwt_global.h"
+#include "qwt_double_rect.h"
+
+#if QT_VERSION < 0x040000
+
+#define qwtMax QMAX
+#define qwtMin QMIN
+#define qwtAbs QABS
+
+#else // QT_VERSION >= 0x040000
+
+#define qwtMax qMax
+#define qwtMin qMin
+#define qwtAbs qAbs
+
+#endif
 
 #ifndef LOG10_2
 #define LOG10_2     0.30102999566398119802  /* log10(2) */
@@ -105,115 +107,86 @@
 #define M_SQRT1_2   0.70710678118654752440  /* 1/sqrt(2) */
 #endif
 
-QWT_EXPORT double qwtGetMin( const double *array, int size );
-QWT_EXPORT double qwtGetMax( const double *array, int size );
+QWT_EXPORT double qwtGetMin(const double *array, int size);
+QWT_EXPORT double qwtGetMax(const double *array, int size);
 
-/*!
-  \brief Compare 2 values, relative to an interval
 
-  Values are "equal", when :
-  \f$\cdot value2 - value1 <= abs(intervalSize * 10e^{-6})\f$
-
-  \param value1 First value to compare
-  \param value2 Second value to compare
-  \param intervalSize interval size
-
-  \return 0: if equal, -1: if value2 > value1, 1: if value1 > value2
-*/
-inline int qwtFuzzyCompare( double value1, double value2, double intervalSize )
+//! Return the sign 
+inline int qwtSign(double x)
 {
-    const double eps = qAbs( 1.0e-6 * intervalSize );
-
-    if ( value2 - value1 > eps )
-        return -1;
-
-    if ( value1 - value2 > eps )
-        return 1;
-
-    return 0;
-}
-
-
-inline bool qwtFuzzyGreaterOrEqual( double d1, double d2 )
-{
-    return ( d1 >= d2 ) || qFuzzyCompare( d1, d2 );
-}
-
-inline bool qwtFuzzyLessOrEqual( double d1, double d2 )
-{
-    return ( d1 <= d2 ) || qFuzzyCompare( d1, d2 );
-}
-
-//! Return the sign
-inline int qwtSign( double x )
-{
-    if ( x > 0.0 )
-        return 1;
-    else if ( x < 0.0 )
-        return ( -1 );
+    if (x > 0.0)
+       return 1;
+    else if (x < 0.0)
+       return (-1);
     else
-        return 0;
-}
+       return 0;
+}            
 
 //! Return the square of a number
-inline double qwtSqr( const double x )
+inline double qwtSqr(const double x)
 {
-    return x * x;
+    return x*x;
 }
 
 /*!
   \brief Limit a value to fit into a specified interval
   \param x Input value
   \param x1 First interval boundary
-  \param x2 Second interval boundary
+  \param x2 Second interval boundary  
 */
 template <class T>
-T qwtLim( const T& x, const T& x1, const T& x2 )
+T qwtLim(const T& x, const T& x1, const T& x2)
 {
     T rv;
     T xmin, xmax;
-
-    xmin = qMin( x1, x2 );
-    xmax = qMax( x1, x2 );
+    
+    xmin = qwtMin(x1, x2);
+    xmax = qwtMax(x1, x2);
 
     if ( x < xmin )
-        rv = xmin;
+       rv = xmin;
     else if ( x > xmax )
-        rv = xmax;
+       rv = xmax;
     else
-        rv = x;
+       rv = x;
 
     return rv;
 }
 
-inline QPoint qwtPolar2Pos( const QPoint &pole,
-    double radius, double angle )
+inline QPoint qwtPolar2Pos(const QPoint &pole,
+    double radius, double angle)
 {
-    const double x = pole.x() + radius * qCos( angle );
-    const double y = pole.y() - radius * qSin( angle );
+    const double x = pole.x() + radius * ::cos(angle);
+    const double y = pole.y() - radius * ::sin(angle);
 
-    return QPoint( qRound( x ), qRound( y ) );
+    return QPoint(qRound(x), qRound(y));
 }
 
-inline QPoint qwtDegree2Pos( const QPoint &pole,
-    double radius, double angle )
+inline QPoint qwtDegree2Pos(const QPoint &pole,
+    double radius, double angle)
 {
-    return qwtPolar2Pos( pole, radius, angle / 180.0 * M_PI );
+    return qwtPolar2Pos(pole, radius, angle / 180.0 * M_PI);
 }
 
-inline QPointF qwtPolar2Pos( const QPointF &pole,
-    double radius, double angle )
+inline QwtDoublePoint qwtPolar2Pos(const QwtDoublePoint &pole,
+    double radius, double angle)
 {
-    const double x = pole.x() + radius * qCos( angle );
-    const double y = pole.y() - radius * qSin( angle );
+    const double x = pole.x() + radius * ::cos(angle);
+    const double y = pole.y() - radius * ::sin(angle);
 
-    return QPoint( qRound( x ), qRound( y ) );
+    return QPoint(qRound(x), qRound(y));
 }
 
-inline QPointF qwtDegree2Pos( const QPointF &pole,
-    double radius, double angle )
+inline QwtDoublePoint qwtDegree2Pos(const QwtDoublePoint &pole,
+    double radius, double angle)
 {
-    return qwtPolar2Pos( pole, radius, angle / 180.0 * M_PI );
+    return qwtPolar2Pos(pole, radius, angle / 180.0 * M_PI);
+}
+
+//! Rounding of doubles, like qRound for integers
+inline double qwtRound(double value)
+{
+    return ::floor(value + 0.5); // MSVC has no ::round().
 }
 
 #endif

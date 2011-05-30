@@ -2,7 +2,7 @@
  * Qwt Widget Library
  * Copyright (C) 1997   Josef Wilgen
  * Copyright (C) 2002   Uwe Rathmann
- *
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the Qwt License, Version 1.0
  *****************************************************************************/
@@ -11,12 +11,12 @@
 #define QWT_CLIPPER_H
 
 #include "qwt_global.h"
-#include "qwt_interval.h"
-#include <qpolygon.h>
-#include <qvector.h>
+#include "qwt_array.h"
+#include "qwt_polygon.h"
+#include "qwt_double_rect.h"
+#include "qwt_double_interval.h"
 
 class QRect;
-class QRectF;
 
 /*!
   \brief Some clipping algos
@@ -25,11 +25,13 @@ class QRectF;
 class QWT_EXPORT QwtClipper
 {
 public:
-    static QPolygon clipPolygon( const QRect &, const QPolygon & );
-    static QPolygonF clipPolygonF( const QRectF &, const QPolygonF & );
+    static QwtPolygon clipPolygon(const QRect &, const QwtPolygon &);
+    static QwtPolygonF clipPolygonF(const QwtDoubleRect &, const QwtPolygonF &);
 
-    static QVector<QwtInterval> clipCircle(
-        const QRectF &, const QPointF &, double radius );
+#if QT_VERSION >= 0x040000
+    static QwtArray<QwtDoubleInterval> clipCircle(
+        const QwtDoubleRect &, const QwtDoublePoint &, double radius);
+#endif
 };
 
 #endif
