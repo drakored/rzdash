@@ -1,12 +1,5 @@
 #include "abstractdatalog.h"
 
-AbstractDatalog::AbstractDatalog(QObject *parent) :
-        QObject(parent)
-{
-//qDebug() << "New Datalog Engine... ID:" << QString::number(this->thread()->currentThreadId() , 16).prepend("0x");
-//qDebug() << "New Datalog Engine...";
-}
-
 AbstractDatalog::~AbstractDatalog()
 {
     qDebug() << "Deleting Datalog Engine...";

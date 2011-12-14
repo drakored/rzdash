@@ -3,7 +3,7 @@
 
 #include <ecu/abstractdatalog.h>
 
-class Crome : virtual public AbstractDatalog
+class Crome : public AbstractDatalog
 {
     Q_OBJECT
 public:

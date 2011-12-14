@@ -3,7 +3,7 @@
 
 #include <ecu/abstractdatalog.h>
 
-class Kpro : virtual public AbstractDatalog
+class Kpro : public AbstractDatalog
 {
     Q_OBJECT
 public:

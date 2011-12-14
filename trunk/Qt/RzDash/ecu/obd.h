@@ -3,7 +3,7 @@
 
 #include <ecu/abstractdatalog.h>
 
-class Obd : virtual public AbstractDatalog
+class Obd : public AbstractDatalog
 {
     Q_OBJECT
 public:

@@ -17,7 +17,6 @@ class AbstractDatalog : public QObject
     Q_OBJECT
 
 public:
-    AbstractDatalog(QObject *parent = 0);
     ~AbstractDatalog();
     virtual void run();
 
