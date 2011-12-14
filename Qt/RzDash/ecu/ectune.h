@@ -3,7 +3,7 @@
 
 #include <ecu/abstractdatalog.h>
 
-class eCtune : virtual public AbstractDatalog
+class eCtune : public AbstractDatalog
 {
     Q_OBJECT
 

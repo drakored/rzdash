@@ -4,7 +4,7 @@
 #include <ecu/abstractdatalog.h>
 #include <QBitArray>
 
-class Ems : virtual public AbstractDatalog
+class Ems : public AbstractDatalog
 {
     Q_OBJECT
 
